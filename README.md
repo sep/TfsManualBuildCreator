@@ -6,13 +6,13 @@ Want to create a Manual Build in TFS?
 
 Look, sometimes you just need to integrate disparate systems, and neither system really plays well with one another.
 
-That's where we were stuck. Our build process used the following [Git](http://git-scm.com/) for source control management and [Jenkins](http://jenkins-ci.org/) for builds and continuous integration... and then we were told to use [Microsoft Test Manager](http://msdn.microsoft.com/en-us/library/jj635157.aspx) (MTM) to handle test traceability (and register our automated tests).
+That's where we were stuck. Our build process used [Git](http://git-scm.com/) for source control management and [Jenkins](http://jenkins-ci.org/) for builds and continuous integration... and then we needed to use [Microsoft Test Manager](http://msdn.microsoft.com/en-us/library/jj635157.aspx) (MTM) to handle test traceability (and register our automated tests).
 
-## Oh, so you create the builds elsewhere
+## Oh, so you create the builds elsewhere?
 
 Yes. All the builds are created on Jenkins, which is not Microsoft Team Build. We have the build artifacts (including assemblies) sitting on a network share after Jenkins creates them.
 
-## So you're really just letting TFS know where the builds are
+## So you're really just letting TFS know where the builds are?
 
 Exactly.
 
@@ -85,3 +85,7 @@ Feel free to drop a line to [the project maintainer](mailto:rmrogers@sep.com) or
 ## You are handsome.
 
 Hey. Right back at you.
+
+## License
+
+BSD
