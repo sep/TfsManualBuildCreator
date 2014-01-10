@@ -88,4 +88,4 @@ Hey. Right back at you.
 
 ## License
 
-BSD
+We use the BSD license.
