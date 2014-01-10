@@ -27,7 +27,7 @@ namespace SepLabs.Projects.TfsManualBuildCreator
         /// Creates the manual build.
         /// </summary>
         /// <returns>A code representing success (or what error occurred).</returns>
-        public ManualBuildReturnCode CreateBuild()
+        public ManualBuildCreationStatus CreateBuild()
         {
             var tfsUri = new Uri(options.TfsServerCollectionUrl);
 
@@ -35,31 +35,31 @@ namespace SepLabs.Projects.TfsManualBuildCreator
                 () =>
                 tfsManager.ConnectToServer(tfsUri)))
             {
-                return ManualBuildReturnCode.ServerNotAvailable;
+                return ManualBuildCreationStatus.GetBuildServerNotAvailableStatus();
             }
 
             if (!AttemptAndCatch<NullReferenceException>(
                 () =>
-                tfsManager.GetBuildService()))
+                tfsManager.LoadBuildService()))
             {
-                return ManualBuildReturnCode.ServiceNotAvailable;
+                return ManualBuildCreationStatus.GetBuildServiceNotAvailableStatus();
             }
 
             if (!AttemptAndCatch<BuildDefinitionNotFoundException>(
                 () =>
-                tfsManager.FindBuildInProjectByName(options.BuildDefinition, options.ProjectName)))
+                tfsManager.LoadBuildInProjectByName(options.BuildDefinition, options.ProjectName)))
             {
-                return ManualBuildReturnCode.BuildNotFound;
+                return ManualBuildCreationStatus.GetBuildNotFoundStatus();
             }
 
             if (!AttemptAndCatch<TeamFoundationServerException>(
                 () =>
                 tfsManager.CreateBuild(options.BuildLabel, options.DropLocation)))
             {
-                return ManualBuildReturnCode.CreateFailure;
+                return ManualBuildCreationStatus.GetCreateFailureStatus();
             }
 
-            return ManualBuildReturnCode.Success;
+            return ManualBuildCreationStatus.GetSuccessStatus();
         }
 
         private static bool AttemptAndCatch<TE>(Action tryFunction)

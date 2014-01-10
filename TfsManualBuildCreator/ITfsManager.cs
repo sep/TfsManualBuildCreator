@@ -17,18 +17,18 @@ namespace SepLabs.Projects.TfsManualBuildCreator
         void ConnectToServer(Uri tfsUri);
 
         /// <summary>
-        /// Gets the build service.
+        /// Loads the build service.
         /// </summary>
         /// <exception cref="NullReferenceException">Thrown if no build service is found.</exception>
-        void GetBuildService();
+        void LoadBuildService();
 
         /// <summary>
-        /// Finds the Build Definition in a project by name.
+        /// Loads the Build Definition in a project by name.
         /// </summary>
         /// <param name="buildName">Name of the build.</param>
         /// <param name="projectName">Name of the project.</param>
         /// <exception cref="BuildDefinitionNotFoundException">Thrown if unable to find build definition.</exception>
-        void FindBuildInProjectByName(string buildName, string projectName);
+        void LoadBuildInProjectByName(string buildName, string projectName);
 
         /// <summary>
         /// Creates the build.

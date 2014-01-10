@@ -23,7 +23,7 @@ namespace SepLabs.Projects.TfsManualBuildCreator.Tests
 
             var returnCode = buildCreator.CreateBuild();
 
-            Assert.AreEqual(ManualBuildReturnCode.ServerNotAvailable, returnCode);
+            Assert.AreEqual(ManualBuildCreationStatus.GetBuildServerNotAvailableStatus().Message, returnCode.Message);
         }
 
         [TestMethod]
@@ -34,12 +34,12 @@ namespace SepLabs.Projects.TfsManualBuildCreator.Tests
                 TfsServerCollectionUrl = "http://working"
             };
             var tfsInterfaceMock = new Mock<ITfsManager>();
-            tfsInterfaceMock.Setup(mock => mock.GetBuildService()).Throws<NullReferenceException>();
+            tfsInterfaceMock.Setup(mock => mock.LoadBuildService()).Throws<NullReferenceException>();
             var buildCreator = new ManualBuildCreator(options, tfsInterfaceMock.Object);
 
             var returnCode = buildCreator.CreateBuild();
 
-            Assert.AreEqual(ManualBuildReturnCode.ServiceNotAvailable, returnCode);
+            Assert.AreEqual(ManualBuildCreationStatus.GetBuildServiceNotAvailableStatus().Message, returnCode.Message);
         }
 
         [TestMethod]
@@ -50,13 +50,13 @@ namespace SepLabs.Projects.TfsManualBuildCreator.Tests
                 TfsServerCollectionUrl = "http://working"
             };
             var tfsInterfaceMock = new Mock<ITfsManager>();
-            tfsInterfaceMock.Setup(mock => mock.FindBuildInProjectByName(It.IsAny<string>(), It.IsAny<string>()))
+            tfsInterfaceMock.Setup(mock => mock.LoadBuildInProjectByName(It.IsAny<string>(), It.IsAny<string>()))
                             .Throws(new BuildDefinitionNotFoundException("", ""));
             var buildCreator = new ManualBuildCreator(options, tfsInterfaceMock.Object);
 
             var returnCode = buildCreator.CreateBuild();
 
-            Assert.AreEqual(ManualBuildReturnCode.BuildNotFound, returnCode);
+            Assert.AreEqual(ManualBuildCreationStatus.GetBuildNotFoundStatus().Message, returnCode.Message);
         }
 
         [TestMethod]
@@ -73,7 +73,22 @@ namespace SepLabs.Projects.TfsManualBuildCreator.Tests
 
             var returnCode = buildCreator.CreateBuild();
 
-            Assert.AreEqual(ManualBuildReturnCode.CreateFailure, returnCode);
+            Assert.AreEqual(ManualBuildCreationStatus.GetCreateFailureStatus().Message, returnCode.Message);
+        }
+
+        [TestMethod]
+        public void ShouldReportSuccessIfAbleToCreateBuild()
+        {
+            var options = new Options
+            {
+                TfsServerCollectionUrl = "http://working"
+            };
+            var tfsInterfaceMock = new Mock<ITfsManager>();
+            var buildCreator = new ManualBuildCreator(options, tfsInterfaceMock.Object);
+
+            var returnCode = buildCreator.CreateBuild();
+
+            Assert.AreEqual(ManualBuildCreationStatus.GetSuccessStatus().Message, returnCode.Message);
         }
     }
 }

@@ -25,10 +25,10 @@ namespace SepLabs.Projects.TfsManualBuildCreator
         }
 
         /// <summary>
-        /// Gets the build service.
+        /// Loads the build service.
         /// </summary>
         /// <exception cref="NullReferenceException">Thrown if no build service is found.</exception>
-        public void GetBuildService()
+        public void LoadBuildService()
         {
             buildServer = teamProjectCollection.GetService<IBuildServer>();
 
@@ -39,12 +39,12 @@ namespace SepLabs.Projects.TfsManualBuildCreator
         }
 
         /// <summary>
-        /// Finds the Build Definition in a project by name.
+        /// Loads the Build Definition in a project by name.
         /// </summary>
         /// <param name="buildName">Name of the build.</param>
         /// <param name="projectName">Name of the project.</param>
         /// <exception cref="BuildDefinitionNotFoundException">Thrown if unable to find build definition.</exception>
-        public void FindBuildInProjectByName(string buildName, string projectName)
+        public void LoadBuildInProjectByName(string buildName, string projectName)
         {
             buildDefinition = buildServer.GetBuildDefinition(projectName, buildName);
         }

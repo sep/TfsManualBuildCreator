@@ -19,38 +19,11 @@ namespace SepLabs.Projects.TfsManualBuildCreator
             else
             {
                 var buildCreator = new ManualBuildCreator(options, new TfsManager());
-                var returnCode = buildCreator.CreateBuild();
+                var returnStatus = buildCreator.CreateBuild();
 
-                switch (returnCode)
-                {
-                    case ManualBuildReturnCode.ServerNotAvailable:
-                        Console.Error.WriteLine("Unable to find collection {0}", options.TfsServerCollectionUrl);
-                        exitCode = -1;
-                        break;
-
-                    case ManualBuildReturnCode.ServiceNotAvailable:
-                        Console.Error.WriteLine("Unable to find build service");
-                        exitCode = -1;
-                        break;
-
-                    case ManualBuildReturnCode.BuildNotFound:
-                        Console.Error.WriteLine(
-                            "Unable to find build {0} in project {1}",
-                            options.BuildDefinition,
-                            options.ProjectName);
-                        exitCode = -1;
-                        break;
-
-                    case ManualBuildReturnCode.CreateFailure:
-                        Console.Error.WriteLine(
-                            "Unable to create manual build. Could be TFS permissions or server offline.");
-                        exitCode = -1;
-                        break;
-
-                    case ManualBuildReturnCode.Success:
-                        Console.WriteLine("Build created successfully");
-                        break;
-                }
+                var writer = returnStatus.IsError ? Console.Error : Console.Out;
+                writer.WriteLine(returnStatus.Message);
+                exitCode = returnStatus.ExitCode;
             }
 
             return exitCode;
