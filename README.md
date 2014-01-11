@@ -74,6 +74,10 @@ If you run the executable from the command line with no parameters it will give 
     
       --help                Display this help screen.
 
+## Are there any prerequisites?
+
+You'll need to install [Team Foundation Server 2012 Object Model](http://visualstudiogallery.msdn.microsoft.com/f30e5cc7-036e-449c-a541-d522299445aa), which is pretty small.
+
 ## This is super amazing and very helpful!
 
 Thanks!
