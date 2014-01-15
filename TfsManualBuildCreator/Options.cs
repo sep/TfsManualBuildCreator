@@ -51,6 +51,25 @@ namespace SepLabs.Projects.TfsManualBuildCreator
         public string BuildDefinition { get; set; }
 
         /// <summary>
+        /// Gets or sets the name of the user.
+        /// </summary>
+        /// <value>The name of the user.</value>
+        [Option("impersonate-user", HelpText = "The user to impersonate when connecting to TFS server")]
+        public string UserName { get; set; }
+
+        /// <summary>
+        /// Gets or sets the name of the user.
+        /// </summary>
+        /// <value>The name of the user.</value>
+        [Option("impersonate-user-password", HelpText = "The password of the user to impersonate when connecting to TFS Server")]
+        public string Password { get; set; }
+
+        public bool ImpersonateUser
+        {
+            get { return !string.IsNullOrEmpty(UserName) && !string.IsNullOrEmpty(Password); }
+        }
+
+        /// <summary>
         /// Gets or sets a value indicating whether this instance is valid.
         /// </summary>
         /// <value><c>true</c> if this instance is valid; otherwise, <c>false</c>.</value>
@@ -64,10 +83,13 @@ namespace SepLabs.Projects.TfsManualBuildCreator
         public static Options GetOptions(string[] args)
         {
             var options = new Options();
-
-            if (Parser.Default.ParseArguments(args, options))
+       
+            using (var parser = Parser.Default)
             {
-                options.IsValid = GetIsValid(options);
+                if (parser.ParseArguments(args, options))
+                {
+                    options.IsValid = GetIsValid(options);
+                }
             }
 
             return options;
@@ -109,7 +131,10 @@ namespace SepLabs.Projects.TfsManualBuildCreator
                 !string.IsNullOrEmpty(options.BuildLabel) &&
                 !string.IsNullOrEmpty(options.DropLocation) &&
                 !string.IsNullOrEmpty(options.ProjectName) &&
-                !string.IsNullOrEmpty(options.TfsServerCollectionUrl);
+                !string.IsNullOrEmpty(options.TfsServerCollectionUrl) &&
+                !((string.IsNullOrEmpty(options.UserName) && !string.IsNullOrEmpty(options.Password)) ||
+                  (!string.IsNullOrEmpty(options.UserName) && string.IsNullOrEmpty(options.Password)));
+
         }
     }
 }

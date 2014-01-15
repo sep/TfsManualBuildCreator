@@ -89,6 +89,59 @@ namespace SepLabs.Projects.TfsManualBuildCreator.Tests
                     "-p", SampleProjectName,
                     "-s", SampleServerCollectionUrl
                 };
+
+            var options = Options.GetOptions(args);
+
+            Assert.IsTrue(options.IsValid);
+        }
+
+        [TestMethod]
+        public void ShouldReportInvalidOptionsIfUserNameIsPresentButPasswordIsNot()
+        {
+            var args = new[]
+                {
+                    "--build-definition", SampleBuildDefinition,
+                    "-b", SampleBuildLabel,
+                    "-d", SampleDropLocation,
+                    "-p", SampleProjectName,
+                    "-s", SampleServerCollectionUrl,
+                    "--impersonate-user", "JSixpack"
+                };
+            var options = Options.GetOptions(args);
+
+            Assert.IsFalse(options.IsValid);
+        }
+
+        [TestMethod]
+        public void ShouldReportInvalidOptionsIfUserNameIsNOtPresentButPasswordIsPresent()
+        {
+            var args = new[]
+                {
+                    "--build-definition", SampleBuildDefinition,
+                    "-b", SampleBuildLabel,
+                    "-d", SampleDropLocation,
+                    "-p", SampleProjectName,
+                    "-s", SampleServerCollectionUrl,
+                    "--impersonate-user-password", "Genny"
+                };
+            var options = Options.GetOptions(args);
+
+            Assert.IsFalse(options.IsValid);
+        }
+
+        [TestMethod]
+        public void ShouldReportValidOptionsIfUserNameIsPresentAndPasswordIsPresent()
+        {
+            var args = new[]
+                {
+                    "--build-definition", SampleBuildDefinition,
+                    "-b", SampleBuildLabel,
+                    "-d", SampleDropLocation,
+                    "-p", SampleProjectName,
+                    "-s", SampleServerCollectionUrl,
+                    "--impersonate-user", "JSixpack",
+                    "--impersonate-user-password", "Genny"
+                };
             var options = Options.GetOptions(args);
 
             Assert.IsTrue(options.IsValid);
