@@ -89,7 +89,6 @@ namespace SepLabs.Projects.TfsManualBuildCreator.Tests
                     "-p", SampleProjectName,
                     "-s", SampleServerCollectionUrl
                 };
-
             var options = Options.GetOptions(args);
 
             Assert.IsTrue(options.IsValid);
@@ -113,7 +112,7 @@ namespace SepLabs.Projects.TfsManualBuildCreator.Tests
         }
 
         [TestMethod]
-        public void ShouldReportInvalidOptionsIfUserNameIsNOtPresentButPasswordIsPresent()
+        public void ShouldReportInvalidOptionsIfUserNameIsNotPresentButPasswordIsPresent()
         {
             var args = new[]
                 {

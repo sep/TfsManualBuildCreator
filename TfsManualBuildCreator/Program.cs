@@ -20,20 +20,20 @@ namespace SepLabs.Projects.TfsManualBuildCreator
             else
             {
                 exitCode = options.ImpersonateUser
-                               ? RunAsImpersonatedUser(CreateBuild, options)
+                               ? CreateBuildAsUser(options)
                                : CreateBuild(options);
             }
 
             return exitCode;
         }
 
-        private static int RunAsImpersonatedUser(Func<Options, int> thingToRun, Options options)
+        private static int CreateBuildAsUser(Options options)
         {
             int exitCode;
             var userNameParts = options.UserName.Split('\\');
             using (Impersonation.LogonUser(userNameParts[0], userNameParts[1], options.Password, LogonType.NewCredentials))
             {
-                exitCode = thingToRun(options);
+                exitCode = CreateBuild(options);
             }
 
             return exitCode;

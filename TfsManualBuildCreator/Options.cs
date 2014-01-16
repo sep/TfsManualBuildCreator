@@ -54,11 +54,11 @@ namespace SepLabs.Projects.TfsManualBuildCreator
         /// Gets or sets the name of the user.
         /// </summary>
         /// <value>The name of the user.</value>
-        [Option("impersonate-user", HelpText = "The user to impersonate when connecting to TFS server")]
+        [Option("impersonate-user", HelpText = @"The domain user to impersonate when connecting to TFS server. For example DOMAIN\Username")]
         public string UserName { get; set; }
 
         /// <summary>
-        /// Gets or sets the name of the user.
+        /// Gets or sets the password for the user.
         /// </summary>
         /// <value>The name of the user.</value>
         [Option("impersonate-user-password", HelpText = "The password of the user to impersonate when connecting to TFS Server")]
