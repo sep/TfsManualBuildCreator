@@ -72,7 +72,15 @@ If you run the executable from the command line with no parameters it will give 
     
       --build-definition    Build Definition to create manual build under
     
+      --impersonate-user             The domain user to impersonate when connecting
+                                     to TFS server. For example DOMAIN\Username
+
+      --impersonate-user-password    The password of the user to impersonate when
+                                     connecting to TFS Server
+    
       --help                Display this help screen.
+
+The `impersonation` options are optional.
 
 ## Are there any prerequisites?
 
